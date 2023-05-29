@@ -14,7 +14,7 @@ export const AddUser = ({ onAdd }) => {
   };
 
   return (
-    <div class="card border-success p-2 mt-5 container-xxl">
+    <div class="card border-primary border-5 p-2 mt-5 container">
       <form onSubmit={handleOnSubmit}>
         
         <div class="row justify-content-center">
@@ -23,7 +23,7 @@ export const AddUser = ({ onAdd }) => {
             <div class="form-floating mb-3">
               <input
                 type="text"
-                class="form-control "
+                class="form-control w-75 "
                 id="floatingInput"
                 name="name"
                 placeholder="Name"
@@ -35,7 +35,7 @@ export const AddUser = ({ onAdd }) => {
             <div class="form-floating mb-3">
               <input
                 type="text"
-                class="form-control "
+                class="form-control w-75"
                 id="floatingInput"
                 name="username"
                 placeholder="Username"
@@ -47,7 +47,7 @@ export const AddUser = ({ onAdd }) => {
             <div class="form-floating mb-3">
               <input
                 type="text"
-                class="form-control "
+                class="form-control w-75"
                 id="floatingInput"
                 name="phone"
                 placeholder="Phone"
@@ -60,15 +60,15 @@ export const AddUser = ({ onAdd }) => {
               <input
                 type="email"
                 name="email"
-                class="form-control "
+                class="form-control w-75"
                 id="floatingInput"
                 placeholder="name@example.com"
               />
               <label for="floatingInput">Email address</label>
             </div>
           </div>
-          <div class="col-12">
-          <div class="d-grid w-100 gap-2">
+          <div class="col-8">
+          <div class="d-grid w-50 gap-2">
           <button onSubmit={handleOnSubmit} type="submit" class="btn mt-2 btn-primary btn-lg">Add</button>
           </div>
          

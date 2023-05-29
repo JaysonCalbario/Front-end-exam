@@ -3,6 +3,7 @@ import { User } from "./components/User";
 import { AddUser } from "./components/AddUser";
 import "./App.css";
 
+
 export default function App() {
   const [users, setUsers] = useState([]);
 
@@ -23,6 +24,8 @@ export default function App() {
       body: JSON.stringify({
         id: Math.random(),
         name: name,
+        username: username,
+        phone: phone,
         email: email
       }),
       headers: {
@@ -84,13 +87,14 @@ export default function App() {
     })
       .then((response) => {
         if (response.status !== 200) {
-          return;
+          alert("Deletion failed");
         } else {
           setUsers(
             users.filter((user) => {
               return user.id !== id;
             })
           );
+          alert("Deletion success");
         }
       })
       .catch((error) => console.log(error));
