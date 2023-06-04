@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { User } from "./components/User";
-import { AddUser } from "./components/AddUser";
+import AddUser from "./components/AddUser";
+import Header  from "./components/Header";
 import "./App.css";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function App() {
   const [users, setUsers] = useState([]);
@@ -11,6 +13,8 @@ export default function App() {
     fetchData();
   }, []);
 
+  // Emitter.on('EVENT-USER-CREATE-SUCCEED', fetchData);
+
   const fetchData = async () => {
     await fetch("https://jsonplaceholder.typicode.com/users")
       .then((response) => response.json())
@@ -18,40 +22,18 @@ export default function App() {
       .catch((error) => console.log(error));
   };
 
-  const onAdd = async (name,username,phone, email) => {
-    await fetch("https://jsonplaceholder.typicode.com/users", {
-      method: "POST",
-      body: JSON.stringify({
-        id: Math.random(),
-        name: name,
-        username: username,
-        phone: phone,
-        email: email
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8"
-      }
-    })
-      .then((response) => {
-        if (response.status !== 201) {
-          return;
-        } else {
-          return response.json();
-        }
-      })
-      .then((data) => {
-        setUsers((users) => [...users, data]);
-        console.log(data)
-      })
-      .catch((error) => console.log(error));
-  };
+  
 
   const onEdit = async (id, name, username, phone, email) => {
     await fetch(`https://jsonplaceholder.typicode.com/users/${id}`, {
       method: "PUT",
       body: JSON.stringify({
+        id:id,
         name: name,
+        username: username,
+        phone: phone,
         email: email
+
       }),
       headers: {
         "Content-type": "application/json; charset=UTF-8"
@@ -62,6 +44,7 @@ export default function App() {
           return;
         } else {
           return response.json();
+          
         }
       })
       .then((data) => {
@@ -71,6 +54,7 @@ export default function App() {
             user.username = username;
             user.phone = phone;
             user.email = email;
+            toast.info("User edit successfully!");
           }
 
           return user;
@@ -79,6 +63,7 @@ export default function App() {
         setUsers((users) => updatedUsers);
       })
       .catch((error) => console.log(error));
+     
   };
 
   const onDelete = async (id) => {
@@ -87,14 +72,14 @@ export default function App() {
     })
       .then((response) => {
         if (response.status !== 200) {
-          alert("Deletion failed");
+         
         } else {
           setUsers(
             users.filter((user) => {
               return user.id !== id;
             })
           );
-          alert("Deletion success");
+          toast.error("User delete successfully!");
         }
       })
       .catch((error) => console.log(error));
@@ -104,11 +89,29 @@ export default function App() {
     
     <div className="App">
       <div>
-      <AddUser onAdd={onAdd} />
+      <Header />
       </div>
+      <div>
+      <AddUser />
+      </div>
+      <>
+      <ToastContainer
+      position="top-right"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="colored"
+/> {/* Add this line */}
+      {/* ... Rest of your component code */}
+    </>
       <h1 className="Header-List">User List</h1>
       <div class="container"> 
-        <table class="table">
+        <table class="table table-bordered border-primary ">
           <thead>
             <tr>
               <th scope="col">Name</th>
@@ -130,6 +133,7 @@ export default function App() {
                 onEdit={onEdit}
                 onDelete={onDelete}
               />
+             
             ))}
           </tbody>
         </table>
